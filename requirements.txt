@@ -1,0 +1,6 @@
+munch
+cloudmesh-cmd5
+cloudmesh-abstract
+cloudmesh-sys
+cloudmesh-inventory
+cloudmesh-configuration

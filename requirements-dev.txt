@@ -1,0 +1,9 @@
+twine
+pygments
+coverage
+flake8
+pytest-cov
+pytest
+pip-tools
+pipdeptree
+pip-tools
