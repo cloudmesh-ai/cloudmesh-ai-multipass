@@ -207,3 +207,4 @@ marimo/_lsp/
 __marimo__/
 .release_state.json
 release_*.log
+.DS_Store

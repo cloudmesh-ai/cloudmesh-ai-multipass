@@ -1,5 +1,5 @@
 import os
-from cloudmesh.common.console import Console
+from cloudmesh.ai.common.io import console
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import yn_choice
 import sys
@@ -38,11 +38,11 @@ class Deploy:
                 return False
 
         if not is_admin():
-            Console.error("multipass needs admin, but you are not allowed to use it.")
+            console.error("multipass needs admin, but you are not allowed to use it.")
             return ""
 
         if not self.dryrun:
-            Console.error("dryrun is not yet implemented")
+            console.error("dryrun is not yet implemented")
             return ""
 
         # see https://multipass.run/docs/installing-on-windows
@@ -56,13 +56,13 @@ class Deploy:
         # test if you are in sudo, if not
         result = Shell.run("sudo -v")
         if "Sorry, user grey may not run sudo" in result:
-            Console.error("this program must be run as sudo")
+            console.error("this program must be run as sudo")
             if not self.dryrun:
                 return ""
         # download
 
         if not can_use_sudo():
-            Console.error("multipass needs sudo, but you are not allowed to use it.")
+            console.error("multipass needs sudo, but you are not allowed to use it.")
             return ""
 
         url = "https://multipass.run/download/macos"
@@ -72,15 +72,14 @@ class Deploy:
             get_command = f"cd {self.directory} ; wget wget --content-disposition {url}"
             open_command = f"cd {self.directory} ; open {pkg}"
             if self.dryrun:
-                Console.ok("Dryrun:")
-                Console.ok("")
-                Console.ok(get_command)
-                Console.ok(open_command)
+                console.msg("Dryrun:")
+                console.msg(f"{get_command}")
+                console.msg(f"{open_command}")
             else:
                 Shell.run(get_command)
                 os.system(open_command)
         except:
-            Console.error("problem downloading multipass")
+            console.error("problem downloading multipass")
         # remove
         if not self.dryrun and yn_choice("do you want to delete the downloaded file?"):
             Shell.rm(self.directory)
@@ -92,13 +91,12 @@ class Deploy:
         see https://multipass.run/docs/installing-on-linux
         """
         if not can_use_sudo():
-            Console.error("multipass needs sudo, but you are not allowed to use it.")
+            console.error("multipass needs sudo, but you are not allowed to use it.")
             return ""
 
         command = "sudo snap install multipass"
         if self.dryrun:
-            Console.ok("Dryrun:")
-            Console.ok("")
-            Console.ok(command)
+            console.msg("Dryrun:")
+            console.msg(f"{command}")
             return ""
         os.system(command)

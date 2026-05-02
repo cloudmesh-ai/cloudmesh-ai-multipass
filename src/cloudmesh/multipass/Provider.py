@@ -5,12 +5,13 @@ from cloudmesh.abstract.ComputeNodeABC import ComputeNodeABC
 from cloudmesh.common.DateTime import DateTime
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
-from cloudmesh.common.console import Console
-from cloudmesh.common.util import banner
+from cloudmesh.ai.common.io import console
+from cloudmesh.ai.common.io import banner
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
 from yamldb.YamlDB import YamlDB
-from tabulate import tabulate
+from rich.table import Table
+from rich.box import ROUNDED
 import yaml
 
 # some of the banners will be removed.
@@ -128,29 +129,46 @@ class Provider(ComputeNodeABC):
         print(self.config)
 
     def better_tabulate(self, data, output="table", headers=None, order=None, **kwargs):
-        if output == "table":
-            tablefmt = "pretty"
-        else:
-            tablefmt = output
-
-        if kwargs is None:
-            kwargs = {}
-        if "tablfmt" not in kwargs:
-            kwargs["tablefmt"] = tablefmt
-
         if output == "json":
             return json.dumps(data, indent=4)
         elif output == "yaml":
             return yaml.dump(data, indent=4)
-        else:
+
+        if output != "table":
+            return str(data)
+
+        if not data:
+            return "No data available"
+
+        # Determine columns and headers
+        if order is not None:
+            cols = order
             if headers is None:
-                headers = list(data[0].keys())
-            if order is not None:
-                table_data = [[item[key] for key in order] for item in data]
-                table = tabulate(table_data, headers=headers, **kwargs)
+                headers = cols
+        else:
+            cols = list(data[0].keys()) if isinstance(data[0], dict) else []
+            if headers is None:
+                headers = cols
+
+        if not cols:
+            return str(data)
+
+        table = Table(show_header=True, header_style="bold magenta", box=ROUNDED)
+
+        for header, col in zip(headers, cols):
+            table.add_column(header)
+
+        for item in data:
+            if isinstance(item, dict):
+                row = [str(item.get(col, "")) for col in cols]
+            elif isinstance(item, (list, tuple)):
+                row = [str(val) for val in item]
             else:
-                table = tabulate(data, headers=headers, **kwargs)
-        return table
+                row = [str(item)]
+            table.add_row(*row)
+
+        console.print(table)
+        return ""
 
     def defaults(self, output="table"):
         data = self.config["cloudmesh.cloud.multipass.alias.vm"].copy()
@@ -235,6 +253,11 @@ class Provider(ComputeNodeABC):
                 "Release",
                 "Image Hash",
             ],
+        },
+        "network": {
+            "sort_keys": ["name"],
+            "order": ["name", "description", "type"],
+            "header": ["Name", "Description", "Type"],
         },
     }
 
@@ -342,6 +365,25 @@ class Provider(ComputeNodeABC):
         return d
 
         # IMPLEMENT, new method
+
+    def networks(self):
+        """Lists the networks on the host
+
+        Returns:
+            list
+        """
+        result = Shell.run("multipass networks --format=json")
+        if result:
+            data = json.loads(result)["list"]
+            for item in data:
+                item["cm"] = {
+                    "kind": "network",
+                    "driver": self.cloudtype,
+                    "cloud": self.cloud,
+                    "name": item["name"],
+                }
+            return data
+        return []
 
     def version(self):
         """returns just the version
@@ -564,7 +606,7 @@ class Provider(ComputeNodeABC):
             os.system(f"multipass exec {name} -- {command}")
             print("\n")
         else:
-            Console.error("run: executor must be cloudmesh or os, found: {executor}")
+            console.error(f"run: executor must be cloudmesh or os, found: {executor}")
         return result
 
     # IMPLEMENT, new method
@@ -1148,7 +1190,7 @@ class Provider(ComputeNodeABC):
         if (source is not None) and (source is not None) and (name is not None):
             result = Shell.run(f"multipass mount --name={name} {source} {destination}")
         else:
-            Console.error("make sure to specify all attributes")
+            console.error("make sure to specify all attributes")
             return ""
         # TODO: this should return the newly mounted volume as cloudmesh json
         return result
@@ -1178,7 +1220,7 @@ class Provider(ComputeNodeABC):
                 f"multipass transfer --name={name} {source} {destination}"
             )
         else:
-            Console.error("make sure to specify all attributes")
+            console.error("make sure to specify all attributes")
             return ""
         # TODO: this should return the newly mounted volume as cloudmesh json
         return result

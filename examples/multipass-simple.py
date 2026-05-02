@@ -1,5 +1,5 @@
 import os
-from cloudmesh.common.util import banner
+from cloudmesh.ai.common.io import banner
 
 # can be installed with pip install cloudmesh-common
 

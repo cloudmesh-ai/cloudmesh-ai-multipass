@@ -1,0 +1,7 @@
+cloudmesh:
+  ai:
+    app:
+      - name: "Multipass VMs"
+        image: "fa-solid fa-desktop"
+        description: "Managing VMs with multipass."
+        plugin: "cloudmesh.ai.command.multipass_plugin.MultipassPlugin"

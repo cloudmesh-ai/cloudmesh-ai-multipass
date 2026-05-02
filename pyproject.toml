@@ -19,7 +19,10 @@ dependencies = [
 version = {file = "VERSION"}
 
 [project.entry-points."cloudmesh.ai.command"]
-multipass = "cloudmesh.multipass.command.multipass:register"
+multipass = "cloudmesh.ai.command.multipass:register"
+
+[project.entry-points."cloudmesh.ai.plugin"]
+multipass = "cloudmesh.ai.command.multipass_plugin:MultipassPlugin"
 
 [tool.setuptools.packages.find]
 where = ["src"]
