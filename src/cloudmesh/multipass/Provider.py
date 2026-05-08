@@ -2,13 +2,13 @@ import json
 import os
 
 from cloudmesh.abstract.ComputeNodeABC import ComputeNodeABC
-from cloudmesh.common.DateTime import DateTime
-from cloudmesh.common.Printer import Printer
-from cloudmesh.common.Shell import Shell
+from cloudmesh.ai.common.DateTime import DateTime
+from cloudmesh.ai.common.Printer import Printer
+from cloudmesh.ai.common.Shell import Shell
 from cloudmesh.ai.common.io import console
 from cloudmesh.ai.common.io import banner
-from cloudmesh.common.dotdict import dotdict
-from cloudmesh.common.util import path_expand
+from cloudmesh.ai.common.dotdict import dotdict
+from cloudmesh.ai.common.util import path_expand
 from yamldb.YamlDB import YamlDB
 from rich.table import Table
 from rich.box import ROUNDED

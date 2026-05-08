@@ -4,10 +4,10 @@ import subprocess
 import sys
 import click
 from cloudmesh.ai.common.io import console
-from cloudmesh.common.util import yn_choice
-from cloudmesh.common.debug import VERBOSE
+from cloudmesh.ai.common.util import yn_choice
+from cloudmesh.ai.common.debug import VERBOSE
 from cloudmesh.ai.common.io import banner
-from cloudmesh.common.Printer import Printer
+from cloudmesh.ai.common.Printer import Printer
 from cloudmesh.ai.multipass.MultipassProvider import MultipassProvider
 
 

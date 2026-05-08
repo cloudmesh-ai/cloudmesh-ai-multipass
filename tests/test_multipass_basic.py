@@ -5,10 +5,10 @@
 # pytest -v --capture=no  tests/test_multipass_.py::Test_Multipass::<METHODNAME>
 ###############################################################
 import pytest
-from cloudmesh.common.Shell import Shell
-from cloudmesh.common.debug import VERBOSE
-from cloudmesh.common.util import HEADING
-from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.ai.common.Shell import Shell
+from cloudmesh.ai.common.debug import VERBOSE
+from cloudmesh.ai.common.util import HEADING
+from cloudmesh.ai.common.Benchmark import Benchmark
 from cloudmesh.multipass.Provider import Provider
 
 Benchmark.debug()

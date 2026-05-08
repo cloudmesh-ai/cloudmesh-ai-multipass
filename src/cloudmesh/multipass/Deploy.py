@@ -1,10 +1,10 @@
 import os
 from cloudmesh.ai.common.io import console
-from cloudmesh.common.Shell import Shell
-from cloudmesh.common.util import yn_choice
+from cloudmesh.ai.common.Shell import Shell
+from cloudmesh.ai.common.util import yn_choice
 import sys
-from cloudmesh.common.security import can_use_sudo
-from cloudmesh.common.systeminfo import os_is_linux, os_is_mac, os_is_windows
+from cloudmesh.ai.common.security import can_use_sudo
+from cloudmesh.ai.common.systeminfo import os_is_linux, os_is_mac, os_is_windows
 
 
 class Deploy:
