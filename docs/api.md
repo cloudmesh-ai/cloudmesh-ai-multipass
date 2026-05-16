@@ -4,4 +4,4 @@ This page provides the API reference for the `cloudmesh-ai-multipass` library.
 
 ## API Documentation
 
-::: cloudmesh.ai.app
+::: cloudmesh.ai.command.multipass
