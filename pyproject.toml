@@ -22,6 +22,7 @@ dependencies = [
     "rich",
     "pytest",
     "cloudmesh-ai-common",
+    "cloudmesh-ai-theme",
 ]
 
 [tool.setuptools.dynamic]
