@@ -7,6 +7,7 @@ name = "cloudmesh-ai-multipass"
 
 dynamic = ["version"]
 description = "Extension multipass created by CME"
+requires-python = ">=3.12"
 license = "Apache-2.0"
 urls = { "Homepage" = "https://github.com/cloudmesh-ai/cloudmesh-ai-multipass" }
 classifiers = [
