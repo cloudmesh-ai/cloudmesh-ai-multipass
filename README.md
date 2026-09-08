@@ -1,5 +1,6 @@
-# Cloudmesh Multipass Extension
+# Cloudmesh AI Multipass
 
+Before installing the cloudmesh extension, you must install Multipass on your system:
 
 ## Multipass Installation
 
